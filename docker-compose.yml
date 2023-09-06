@@ -3,25 +3,44 @@ version: '3'
 volumes:
   pg_data:
   static:
+  media:
 
 services:
-  db:
+  db_new:
     image: postgres:13
+    env_file: .env
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - pg_data:/var/lib/postgresql/data
+      
   backend:
     build: ./backend/
     env_file: .env
+    environment:
+      DB_HOST: db_new
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+    ports:
+      - "8000:8000"
+    volumes:
+      - media:/media/
+      - static:/backend_static
+
   frontend:
     env_file: .env
     build: ./frontend/
-    command: cp -r /app/build/. /static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/static
+      - static:/frontend_static/
+
   gateway:
     build: ./nginx/
     env_file: .env
     ports:
       - 9000:80
     volumes:
-      - static:/static
+      - static:/backend_static
+
