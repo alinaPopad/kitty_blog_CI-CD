@@ -27,20 +27,20 @@ services:
       - "8000:8000"
     volumes:
       - media:/media/
-      - static:/backend_static
+      - static:/static/
 
   frontend:
     env_file: .env
     build: ./frontend/
     command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/frontend_static/
+      - static:/static/
 
   gateway:
     build: ./nginx/
     env_file: .env
     ports:
-      - 9000:80
+      - 80:80
     volumes:
-      - static:/backend_static
+      - static:/static/
 
