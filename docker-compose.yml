@@ -26,7 +26,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - media:/media/
+      - media:/app/media/
       - static:/static/
 
   frontend:
@@ -42,5 +42,6 @@ services:
     ports:
       - 80:80
     volumes:
+      - media:/app/media/
       - static:/static/
 
