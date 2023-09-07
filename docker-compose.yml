@@ -6,7 +6,7 @@ volumes:
   media:
 
 services:
-  db_new:
+  db:
     image: postgres:13
     env_file: .env
     environment:
@@ -18,7 +18,7 @@ services:
     build: ./backend/
     env_file: .env
     environment:
-      DB_HOST: db_new
+      DB_HOST: db
       DB_PORT: ${DB_PORT}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
@@ -32,7 +32,7 @@ services:
   frontend:
     env_file: .env
     build: ./frontend/
-    command: cp -r /app/build/. /frontend_static/
+    command: cp -r /app/build/. /static/
     volumes:
       - static:/static/
 
