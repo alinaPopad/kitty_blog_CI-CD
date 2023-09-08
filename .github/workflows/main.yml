@@ -59,7 +59,7 @@ jobs:
       - name: Push to DockerHub
         uses: docker/build-push-action@v4
         with:
-          context: ./kittygram_backend/
+          context: ./backend/
           push: true
           tags: alinapopad/kittygram_backend:latest
   
